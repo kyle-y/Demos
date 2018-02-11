@@ -6,6 +6,7 @@
     <!--允许程序打开网络套接字-->
     <uses-permission android:name="android.permission.INTERNET" />
     <!--允许程序设置内置sd卡的写权限-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--允许程序获取网络状态-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,13 +16,14 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".MainApplication"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -31,10 +33,34 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SecondActivity" />
+
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="请输入您的用户Key"/>
         <service android:name="com.amap.api.location.APSService"></service>
+
+        <service android:name=".deamon.AliveService" />
+        <service android:name=".deamon.AliveService$InnerService" />
+
+        <service
+            android:name=".deamon.JobSchedulerService"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:process=":x" />
+        <service
+            android:name=".deamon.WatchService"
+            android:process=":x" />
+        <service
+            android:name=".deamon.WatchService$InnerService"
+            android:process=":x" />
+
+        <receiver android:name=".deamon.WakeUpReceiver"
+            android:process=":x">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="hahaha" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
